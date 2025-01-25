@@ -10,7 +10,7 @@ class EmployeeController extends Controller
 {
     public function __invoke(FileService $excel)
     {
-            $spreadsheet = $excel->excel();
+            $spreadsheet = $excel->generateExcel();
             return response()->stream(function () use ($spreadsheet) {
                 $writer = new Xlsx($spreadsheet);
                 $writer->save('php://output');

@@ -10,7 +10,7 @@ class FileService
     /**
      * Create a new class instance.
      */
-    public function excel()
+    public function generateExcel()
     {
         $employees = Employee::take(10)->get();
         $spreadsheet = new Spreadsheet();
