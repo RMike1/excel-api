@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\EmployeeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/employees',EmployeeController::class)->name('employees');
