@@ -2,7 +2,7 @@
 
 Laravel based API system for exporting employee data to Excel files. It uses Laravel queues for efficient processing of large datasets and generates Excel files with PhpOffice's PhpSpreadsheet.
 
-
+[![Tests](https://github.com/RMike1/excel-api/actions/workflows/test.yml/badge.svg)](https://github.com/RMike1/excel-api/actions/workflows/test.yml)
 
 ### Features
 
