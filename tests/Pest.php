@@ -1,4 +1,5 @@
 <?php
+use App\Models\Employee;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,7 +13,11 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+ ->use(Illuminate\Foundation\Testing\RefreshDatabase::class);
+        beforeEach(function(){
+            Employee::factory()->create();
+        })
+
     ->in('Feature');
 
 /*
