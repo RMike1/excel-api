@@ -1,0 +1,41 @@
+name: Tests
+on: 
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - dev
+  push:
+    branches:
+      - main
+      - dev
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache Composer packages
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            composer-
+      - name: install PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3.12'
+      - name: copy .env and env.testing file
+        run: |
+            cp .env.example .env
+            cp .env.example .env.testing
+      - name: install Composer
+        run: |
+          composer install --no-interaction
+      - name: Generate application key
+        run: |
+          php artisan key:generate
+      - name: Run tests
+        run: |
+          ./vendor/bin/pest
