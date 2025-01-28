@@ -23,8 +23,6 @@ class EmployeeFactory extends Factory
             'hire_date'=>fake()->date(),
             'gender'=>fake()->title(),
             'birth_date'=>fake()->date(),
-            'created_at'=>fake()->date(),
-            'updated_at'=>fake()->date()
         ];
     }
 }

@@ -22,7 +22,6 @@ class ExportEmployeesJob implements ShouldQueue
     public function __construct(string $filePath)
     {
         $this->filePath = $filePath;
-        $this->onQueue('export_excel');
     }
 
     /**

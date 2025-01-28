@@ -15,10 +15,10 @@ use App\Models\Employee;
 pest()->extend(Tests\TestCase::class)
  ->use(Illuminate\Foundation\Testing\RefreshDatabase::class);
         beforeEach(function(){
-            Employee::factory()->create();
+            Employee::factory()->count(10)->create();
         })
 
-    ->in('Feature');
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
