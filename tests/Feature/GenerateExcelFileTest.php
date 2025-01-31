@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Employee;
 use Mockery\MockInterface;
 use App\Jobs\ExportEmployeesJob;
 use App\Services\Reports\FileService;
@@ -26,6 +27,6 @@ it('exports employees via the endpoint', function () {
     Storage::assertExists($filePath);
     $response->assertStatus(202)
         ->assertJson([
-            'message' => 'File generation is in progress.',
+            'message' => 'File generation is in progress...',
         ]);
 });
