@@ -12,6 +12,7 @@
         "php": "^8.2",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
+        "laravel/telescope": "^5.4",
         "laravel/tinker": "^2.9",
         "phpoffice/phpspreadsheet": "^3.8"
     },
@@ -57,7 +58,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {
