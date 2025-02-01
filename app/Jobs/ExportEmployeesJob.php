@@ -2,14 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Models\User;
 use App\Models\Employee;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
@@ -39,7 +35,7 @@ class ExportEmployeesJob implements ShouldQueue
         if (!Storage::exists($directory)) {
             Storage::makeDirectory($directory);
         }
-        Log::info('Current Memory: ' . memory_get_usage(true));
+        // Log::info('Current Memory: ' . memory_get_usage(true));
         $writer = new Writer();
         $writer->openToFile(Storage::path($this->filePath));
         
@@ -64,6 +60,6 @@ class ExportEmployeesJob implements ShouldQueue
             }
         });
         $writer->close();
-        Log::info('After Export Memory: ' . memory_get_usage(true));
+        // Log::info('After Export Memory: ' . memory_get_usage(true));
     }
 }

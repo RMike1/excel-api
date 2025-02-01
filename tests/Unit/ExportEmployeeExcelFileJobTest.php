@@ -1,11 +1,8 @@
 <?php
 
 use App\Jobs\ExportEmployeesJob;
-use App\Models\Employee;
-use Mockery\MockInterface;
 use App\Services\Reports\FileService;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Facades\Storage;
 
 it('dispatches Job with correct file path', function () {
     Queue::fake();
