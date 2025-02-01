@@ -52,7 +52,7 @@ php artisan serve
 
 ### Technologies Used
 
-- Laravel: Backend framework for routing, controllers, and services.
+- Laravel: Backend framework
 - PhpSpreadsheet: Used for generating Excel files.
 
 ### Usage

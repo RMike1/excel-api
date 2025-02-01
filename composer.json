@@ -12,7 +12,9 @@
         "php": "^8.2",
         "laravel/framework": "^11.31",
         "laravel/sanctum": "^4.0",
+        "laravel/telescope": "^5.4",
         "laravel/tinker": "^2.9",
+        "openspout/openspout": "^4.28",
         "phpoffice/phpspreadsheet": "^3.8"
     },
     "require-dev": {
@@ -57,7 +59,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+                "laravel/telescope"
+            ]
         }
     },
     "config": {

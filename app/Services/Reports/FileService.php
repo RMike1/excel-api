@@ -17,7 +17,7 @@ class FileService
     {
         $name = now()->format('YmdHis'); 
         $filePath = "exports/employees_{$name}.xlsx";
-        ExportEmployeesJob::dispatch($filePath )->onQueue('export_excel');
+        ExportEmployeesJob::dispatch($filePath)->onQueue('export_excel');
         return $filePath;
     }
-}
+}   
