@@ -1,13 +1,19 @@
 <?php
 
 use App\Jobs\ExportEmployeesJob;
+use App\Models\Employee;
+use Mockery\MockInterface;
+use App\Services\Reports\FileService;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 
-it('processes job n generates excel file', function () {
-    Storage::fake('local');
-    $path = 'private/exports';
-    $filePath = $path . '/employees.xlsx';
-    Storage::disk('local')->makeDirectory($path);
-    (new ExportEmployeesJob($filePath))->handle();
-    Storage::assertExists($filePath);
+it('dispatches Job with correct file path', function () {
+    Queue::fake();
+    $fileService = new FileService();
+    $filePath = $fileService->generateExcel();
+    $this->assertStringStartsWith('exports/employees_', $filePath);
+    $this->assertStringEndsWith('.xlsx', $filePath);
+    Queue::assertPushed(ExportEmployeesJob::class, function ($job) use ($filePath) {
+        return $job->filePath === $filePath;
+    });
 });

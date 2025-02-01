@@ -2,12 +2,13 @@
 
 use App\Models\Employee;
 use Mockery\MockInterface;
+use Illuminate\Support\Str;
 use App\Jobs\ExportEmployeesJob;
 use App\Services\Reports\FileService;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Storage;
 
-it('generates excel file with FileService', function(){
+it('generates excel file', function(){
     $spy=$this->spy(FileService::class);
     $this->postJson(route('employees.export'))
     ->assertStatus(200)
@@ -15,18 +16,15 @@ it('generates excel file with FileService', function(){
     $spy->shouldHaveReceived()->generateExcel();
 });
 
-it('exports employees via the endpoint', function () {
-    Storage::fake('local');
+it('dispatches export job and returns response', function () {
     Queue::fake();
+    Storage::fake('local');
     $response = $this->postJson(route('employees.export'));
-    Queue::assertPushedOn('export_excel', ExportEmployeesJob::class);
-    $path = 'private/exports';
-    $filePath = $path . '/employees.xlsx';
-    Storage::disk('local')->makeDirectory($path);
-    (new ExportEmployeesJob($filePath))->handle();
-    Storage::assertExists($filePath);
     $response->assertStatus(202)
         ->assertJson([
             'message' => 'File generation is in progress...',
         ]);
+    Queue::assertPushed(ExportEmployeesJob::class, function ($job) {
+        return Str::startsWith($job->filePath, 'exports/employees_');
+    });
 });
