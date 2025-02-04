@@ -19,11 +19,11 @@ it('generates excel file', function(){
 it('dispatches export job and returns response', function () {
     Queue::fake();
     Storage::fake('local');
-    $response = $this->postJson(route('employees.export'));
-    $response->assertStatus(202)
-        ->assertJson([
+    $this->postJson(route('employees.export'))
+    ->assertStatus(202)
+    ->assertJson([
             'message' => 'File generation is in progress...',
-        ]);
+    ]);
     Queue::assertPushed(ExportEmployeesJob::class, function ($job) {
         return Str::startsWith($job->filePath, 'exports/employees_');
     });

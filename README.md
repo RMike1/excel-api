@@ -53,7 +53,7 @@ php artisan serve
 ### Technologies Used
 
 - Laravel: Backend framework
-- PhpSpreadsheet: Used for generating Excel files.
+- OpenSpout Package: Used for generating Excel files.
 
 ### Usage
 - Start the queue worker
