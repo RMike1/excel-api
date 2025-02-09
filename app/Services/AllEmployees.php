@@ -16,7 +16,7 @@ class AllEmployees
     {
         return Employee::paginate(20);
     }
-    public function employeesFromStorage($file, int $perPage = 50, int $page = 1)
+    public function employeesFromStorage($file, int $page = 1)
     {
         if (!file_exists($file)) {
             return response()->json('File not found!');
@@ -24,24 +24,33 @@ class AllEmployees
 
         $reader = ReaderFactory::createFromFile($file);
         $reader->open($file);
-        $data = []; 
+
+        $data = collect();
+        $perPage = 50;
+        $totalRows = 0;
+        $start = ($page - 1) * $perPage + 1;
+        $end = $page * $perPage;
+
         foreach ($reader->getSheetIterator() as $sheet) {
             foreach ($sheet->getRowIterator() as $row) {
-                $data[] = $row->toArray();
+                $totalRows++;
+                if ($totalRows >= $start && $totalRows <= $end) {
+                    $data->push($row->toArray());
+                }
+                if ($totalRows >= $end) {
+                    break 2;
+                }
             }
         }
         $reader->close();
 
-        $collection = collect($data);
         $paginate = new LengthAwarePaginator(
-            $collection->forPage($page, $perPage),
-            $collection->count(),
+            $data,
+            $totalRows,
             $perPage,
             $page,
             ['path' => url()->current()]
         );
         return $paginate;
     }
-
-    
 }

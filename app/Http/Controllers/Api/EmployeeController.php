@@ -29,17 +29,14 @@ class EmployeeController extends Controller
 
     public function allEmployees(AllEmployees $allEmployees)
     {
-        return response()->json([
-            $allEmployees->employees(),
-        ]);
+        return response()->json( $allEmployees->employees());
     }
     public function allEmployeesFromStorage(Request $request, AllEmployees $allEmployeesFromStorage)
     {
-        $file = Storage::disk('local')->path('exports/employees_20250205131505.xlsx');
+        $file = Storage::disk('local')->path('exports/employees_20250204094131.xlsx');
         $page = $request->query('page', 1);
-        $perPage = 50;
         
-        $employees= $allEmployeesFromStorage->employeesFromStorage($file, $perPage, $page);
+        $employees= $allEmployeesFromStorage->employeesFromStorage($file, $page);
 
         return response()->json($employees);
 }
