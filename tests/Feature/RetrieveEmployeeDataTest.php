@@ -31,9 +31,9 @@ it('returns Employees data with pagination', function () {
 });
 
 it('can even fetch Employees data from storage', function () {
-    Storage::fake('local');
-    $spy = $this->spy(AllEmployees::class);
-    $this->getJson(route('employees.all-storage', ['page' => 1]))
-        ->assertStatus(200);
-    $spy->shouldHaveReceived()->employeesFromStorage(Mockery::any(), 1)->once();
+    Storage::fake();
+    $spy=$this->spy(AllEmployees::class);
+    $this->getJson(route('employees.all-storage'), ['page'=>1])
+            ->assertOk();
+    $spy->shouldHaveReceived()->employeesFromStorage(Mockery::any(),1)->once();
 });
