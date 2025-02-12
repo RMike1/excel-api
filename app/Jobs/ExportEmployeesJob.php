@@ -37,7 +37,7 @@ class ExportEmployeesJob implements ShouldQueue
         if (!Storage::exists($directory)) {
             Storage::makeDirectory($directory);
         }
-        Log::info('Current Memory: ' . memory_get_usage(true));
+        // Log::info('Current Memory: ' . memory_get_usage(true));
         $writer = new Writer();
         $writer->openToFile(Storage::path($this->filePath));
         
@@ -69,7 +69,7 @@ class ExportEmployeesJob implements ShouldQueue
             gc_collect_cycles();
         });
         $writer->close();
-        Log::info('After Export Memory: ' . memory_get_usage(true));
+        // Log::info('After Export Memory: ' . memory_get_usage(true));
         unset($writer);
         gc_collect_cycles();
     }
