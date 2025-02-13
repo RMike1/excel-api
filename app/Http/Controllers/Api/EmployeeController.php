@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
 {
-    public function __invoke(FileService $excel)
+    public function export(FileService $excel)
     {
             $filePath = $excel->generateExcel();
             if (Storage::exists($filePath)) {
