@@ -38,6 +38,7 @@ class ExportEmployeesJob implements ShouldQueue
             Storage::makeDirectory($directory);
         }
         // Log::info('Current Memory: ' . memory_get_usage(true));
+        // Log::info('Current Memory: ' . memory_get_usage(true));
         $writer = new Writer();
         $writer->openToFile(Storage::path($this->filePath));
         
@@ -71,7 +72,6 @@ class ExportEmployeesJob implements ShouldQueue
         });
         $writer->close();
         // Log::info('After Export Memory: ' . memory_get_usage(true));
-        // Log::info('Highest Export Memory: ' . memory_get_peak_usage(true));
         unset($writer);
         gc_collect_cycles();
     }

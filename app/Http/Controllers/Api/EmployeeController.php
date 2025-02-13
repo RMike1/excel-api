@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Employee;
+use Illuminate\Http\Request;
+use App\Services\AllEmployees;
 use App\Http\Controllers\Controller;
 use App\Services\Reports\FileService;
 use Illuminate\Support\Facades\Storage;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class EmployeeController extends Controller
 {
@@ -24,4 +26,19 @@ class EmployeeController extends Controller
     
             return response()->json(['message' => 'File generation is in progress...'], 202);
     }
+
+    public function allEmployees(AllEmployees $allEmployees)
+    {
+        return response()->json( $allEmployees->employees());
+    }
+    public function allEmployeesFromStorage(Request $request, AllEmployees $allEmployeesFromStorage)
+    {
+        $file = Storage::disk('local')->path('exports/employees_20250204094131.xlsx');
+        $page = $request->query('page', 1);
+        
+        $employees= $allEmployeesFromStorage->employeesFromStorage($file, $page);
+
+        return response()->json($employees);
+}
+
 }
