@@ -38,12 +38,14 @@ class ExportEmployeesJob implements ShouldQueue
             Storage::makeDirectory($directory);
         }
         // Log::info('Current Memory: ' . memory_get_usage(true));
+        // Log::info('Current Memory: ' . memory_get_usage(true));
         $writer = new Writer();
         $writer->openToFile(Storage::path($this->filePath));
         
         $headerStyle = (new Style());
         $headerStyle ->setFontBold();
         $headerStyle->setFontSize(10);
+        
         $headerStyle->setCellAlignment(CellAlignment::CENTER);
         $headerStyle->setFontColor(Color::WHITE);
         $headerStyle->setBackgroundColor("3f403f");
@@ -65,7 +67,7 @@ class ExportEmployeesJob implements ShouldQueue
                 ]);
                 $writer->addRow($row);
             }
-        unset($employees);
+            unset($employees);
             gc_collect_cycles();
         });
         $writer->close();
