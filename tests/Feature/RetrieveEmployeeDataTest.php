@@ -3,6 +3,7 @@
 use App\Models\Employee;
 use App\Services\AllEmployees;
 use OpenSpout\Common\Entity\Row;
+use Illuminate\Http\UploadedFile;
 use OpenSpout\Common\Entity\Cell;
 use OpenSpout\Writer\XLSX\Writer;
 use function Pest\Laravel\getJson;
@@ -44,11 +45,11 @@ it('returns Employees data with pagination', function () {
 //     $spy->shouldHaveReceived()->employeesFromStorage(Mockery::any(), 1)->once();
 // });
 
-it('can even fetch Employees data from storage', function () {
+it('can even fetch Employees data from storage2', function () {
     Storage::fake('local');
     Storage::disk('local')->makeDirectory('exports');
-    $filePath = 'exports/employees_123.xlsx';
-    $fullPath = Storage::disk('local')->path($filePath);
+    $filePath = 'employees_123.xlsx';
+    $fullPath = Storage::disk('local')->path('/exports'.$filePath);
     $writer = new Writer();
     $writer->openToFile($fullPath);
     $rows = [
@@ -65,8 +66,13 @@ it('can even fetch Employees data from storage', function () {
         $writer->addRow($row);
     }
     $writer->close();
-    $this->assertTrue(Storage::disk('local')->exists($filePath));
-    $file = Storage::disk('local')->path($filePath);
+    // $this->assertTrue(Storage::disk('local')->exists($filePath));
+    // $file = Storage::disk('local')->path($filePath);
+    
+    // ====changes========
+    $file = new UploadedFile($fullPath, $filePath, 'application/xlsx');
+
+
     $allEmployeeService = new AllEmployees();
     $allRows = getAllRowsForFile($file);
     $data = $allEmployeeService->employeesFromStorage($file, 1);
